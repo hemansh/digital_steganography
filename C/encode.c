@@ -198,7 +198,7 @@ int encode(const char* pram1,const char *pram2)
     }
 
 
-    printf("enter hash and doller only:");
+    printf("enter '#' and '$' only:");
     char magic_str[10];
     char magic=getchar();
     
