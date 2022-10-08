@@ -72,7 +72,6 @@ void secret_decryption(int size_txt, FILE *pf1)
 
 		if ( j == 8)
 		{
-			//putc(file_buff, pf2);
 			output[k++] = file_buff;
 			j=0;
 			file_buff = 0;
