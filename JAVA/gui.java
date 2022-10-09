@@ -13,6 +13,7 @@ public class gui {
     Font font;
     public static String file_dir;
     JTextArea msg_input;
+    private int WIDTH = 600, HEIGHT = 500;
 
     gui() {
         font = new Font("Serif", Font.BOLD, 20);
@@ -24,7 +25,7 @@ public class gui {
         panel_decode = new JPanel();
         panel_decode.setLayout(null);
         headding = new JLabel("Digital Steganography");
-        headding.setBounds(75, 5, 300, 100);
+        headding.setBounds(WIDTH/2 - 100, 5, 300, 100);
         headding.setFont(font);
         msg_input = new JTextArea();
         btn_encode = new JButton("Encode");
@@ -82,8 +83,8 @@ public class gui {
             }
         });
         button_decode = new JButton("Decode");
-        button_encode.setBounds(75, 200, 100, 50);
-        button_decode.setBounds(225, 200, 100, 50);
+        button_encode.setBounds(WIDTH/2 - 150, 200, 100, 50);
+        button_decode.setBounds(WIDTH/2 +50, 200, 100, 50);
         button_decode.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 frame.remove(panel_home);
@@ -102,7 +103,7 @@ public class gui {
         panel_home.add(button_encode);
         panel_home.add(button_decode);
         frame.add(panel_home);
-        frame.setSize(600, 500);
+        frame.setSize(WIDTH,HEIGHT);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
