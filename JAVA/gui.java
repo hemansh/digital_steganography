@@ -201,10 +201,5 @@ public class gui {
 
     public static void main(String[] args) {
         new gui();
-        // ImageHider obj = new ImageHider();
-        // // obj.hide(args[0], args[1], "imageout.png");
-
-        // obj.reveal(args[0], "reveled.png");
-
     }
 }
