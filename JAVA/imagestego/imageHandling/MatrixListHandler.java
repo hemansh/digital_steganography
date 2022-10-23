@@ -1,4 +1,4 @@
-package JAVA.imagestego.imageHandling;
+package imagestego.imageHandling;
 
 import java.util.ArrayList;
 import java.util.List;

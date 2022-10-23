@@ -1,17 +1,19 @@
-package JAVA;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
 
-import JAVA.imagestego.ImageHider;
-import JAVA.imagestego.Messages;
 
-public class gui {
+import imagestego.ImageHider;
+import imagestego.Messages;
+import gui.RoundBtn;
+
+import textImage.Steganographer;
+
+public class StegnoMain {
     JFrame frame;
     JPanel panel_home, panel_encode, panel_decode;
-    JButton button_encode, button_decode, open, open2, btn_encode, btn_decode;
+    JButton button_encode, button_decode, open, open2, btn_encode, btn_decode,home;
     JLabel headding, file_loc, file_loc2;
     Font font;
     public static String file_dir, file_dir2;
@@ -19,8 +21,8 @@ public class gui {
     JRadioButton encode_radio_image, encode_radio_text,decode_radio_image,decode_radio_text;
     private int WIDTH = 600, HEIGHT = 500;
 
-    gui() {
-        font = new Font("Serif", Font.BOLD, 20);
+    StegnoMain() {
+        font = new Font("Times New Roman",Font.PLAIN, 20);
         frame = new JFrame();
         panel_home = new JPanel();
         panel_home.setLayout(null);
@@ -31,6 +33,8 @@ public class gui {
         headding = new JLabel("Digital Steganography");
         headding.setBounds(WIDTH / 2 - 100, 5, 300, 100);
         headding.setFont(font);
+        JButton home = new JButton("Home");
+        home.setBounds(25, 385, 100, 25);
         msg_input = new JTextArea();
         btn_encode = new JButton("Encode");
         btn_encode.setBounds(250, 385, 100, 25);
@@ -44,10 +48,11 @@ public class gui {
                 }
                 else if(encode_radio_text.isSelected())
                 {
-                    Encrypt obj = new Encrypt();
-                    if (obj.encode(file_dir, msg_input.getText())) {
-                        JOptionPane.showMessageDialog(frame, "Encoding Done");
-                    }
+                    // Encrypt obj = new Encrypt();
+                    // if (obj.encode(file_dir, msg_input.getText())) {
+                    //     JOptionPane.showMessageDialog(frame, "Encoding Done");
+                    // }
+                    Steganographer.encode(file_dir,msg_input.getText());
                 }
                 else
                 {
@@ -67,8 +72,9 @@ public class gui {
                 }
                 else if(decode_radio_text.isSelected())
                 {
-                    Decrypt obj = new Decrypt();
-                    String sec_mesg = obj.getText(file_dir);
+                    // Decrypt obj = new Decrypt();
+                    // String sec_mesg = obj.getText(file_dir);
+                    String sec_mesg = Steganographer.decode(file_dir);
                     if (sec_mesg.length() > 0) {
                         JOptionPane.showMessageDialog(frame, sec_mesg);
                     }
@@ -114,6 +120,9 @@ public class gui {
             }
         });
         button_encode = new JButton("Encode");
+        button_encode.setBackground(Color.BLACK);
+        button_encode.setForeground(Color.WHITE);
+        button_encode.setBounds(WIDTH / 2 - 150, 200, 100, 50);
         button_encode.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 encode_radio_image = new JRadioButton("Image");
@@ -134,6 +143,17 @@ public class gui {
                 panel_encode.add(file_loc);
                 panel_encode.add(encode_radio_image);
                 panel_encode.add(encode_radio_text);
+                panel_encode.add(home);
+                home.addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        frame.remove(panel_encode);
+                        frame.add(panel_home);
+                        panel_home.add(headding);
+                        setHomeHeadding();
+                        frame.revalidate();
+                        frame.repaint();
+                    }
+                });
                 encode_radio_image.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
                         if (encode_radio_image.isSelected()) {
@@ -160,11 +180,14 @@ public class gui {
                     }
                 });
                 frame.add(panel_encode);
-                frame.validate();
+                frame.revalidate();
+                frame.repaint();
             }
         });
         button_decode = new JButton("Decode");
-        button_encode.setBounds(WIDTH / 2 - 150, 200, 100, 50);
+        button_decode.setBackground(Color.BLACK);
+        button_decode.setForeground(Color.WHITE);
+        button_decode.setBorder(new RoundBtn(15));
         button_decode.setBounds(WIDTH / 2 + 50, 200, 100, 50);
         button_decode.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -179,27 +202,46 @@ public class gui {
                 headding.setBounds((WIDTH/2)-35, 5, 300, 100);
                 panel_decode.add(headding);
                 panel_decode.add(open);
+                panel_decode.add(home);
                 open.setBounds(20, 200, 100, 50);
                 file_loc.setBounds(150, 200, 550, 50);
                 panel_decode.add(file_loc);
                 panel_decode.add(btn_decode);
                 panel_decode.add(decode_radio_image);
                 panel_decode.add(decode_radio_text);
+                home.addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        frame.remove(panel_decode);
+                        panel_home.add(headding);
+                        setHomeHeadding();
+                        frame.add(panel_home);
+                        frame.revalidate();
+                        frame.repaint();
+                    }
+                });
                 frame.add(panel_decode);
-                frame.validate();
+                frame.revalidate();
+                frame.repaint();
             }
         });
         panel_home.add(headding);
         panel_home.add(button_encode);
         panel_home.add(button_decode);
         frame.add(panel_home);
+        frame.getContentPane().setBackground(Color.white);
         frame.setSize(WIDTH, HEIGHT);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
 
+    private void setHomeHeadding()
+    {
+        headding.setText("Digital Steganography");
+        headding.setBounds(WIDTH / 2 - 100, 5, 300, 100);
+    }
+
     public static void main(String[] args) {
-        new gui();
+        new StegnoMain();
     }
 }

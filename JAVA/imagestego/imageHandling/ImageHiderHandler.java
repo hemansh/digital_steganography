@@ -1,8 +1,8 @@
-package JAVA.imagestego.imageHandling;
+package imagestego.imageHandling;
 
 import java.awt.image.BufferedImage;
 
-import JAVA.imagestego.Messages;
+import imagestego.Messages;
 
 public class ImageHiderHandler extends ImageHandler {
 

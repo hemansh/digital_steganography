@@ -1,4 +1,4 @@
-package JAVA.imagestego;
+package imagestego;
 
 public class ImageHider {
 

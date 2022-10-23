@@ -1,4 +1,4 @@
-package JAVA.imagestego;
+package imagestego;
 
 import java.awt.image.BufferedImage;
 import java.io.File;

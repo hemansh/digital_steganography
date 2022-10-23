@@ -1,8 +1,8 @@
-package JAVA.imagestego.imageHandling;
+package imagestego.imageHandling;
 
 import java.awt.image.BufferedImage;
 
-import JAVA.imagestego.Steganographer;
+import imagestego.Steganographer;
 
 public abstract class ImageHandler {
 	

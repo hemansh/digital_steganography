@@ -1,4 +1,4 @@
-package JAVA.imagestego.imageHandling;
+package imagestego.imageHandling;
 
 public class BinaryConverter {
 
