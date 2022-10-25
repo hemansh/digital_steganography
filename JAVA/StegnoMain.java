@@ -52,7 +52,8 @@ public class StegnoMain {
                     // if (obj.encode(file_dir, msg_input.getText())) {
                     //     JOptionPane.showMessageDialog(frame, "Encoding Done");
                     // }
-                    Steganographer.encode(file_dir,msg_input.getText());
+                    String pass = JOptionPane.showInputDialog(frame, "Eneter your Secret Key");
+                    Steganographer.encode(file_dir,msg_input.getText(),pass);
                 }
                 else
                 {
@@ -74,7 +75,8 @@ public class StegnoMain {
                 {
                     // Decrypt obj = new Decrypt();
                     // String sec_mesg = obj.getText(file_dir);
-                    String sec_mesg = Steganographer.decode(file_dir);
+                    String pass = JOptionPane.showInputDialog(frame, "enter your password");
+                    String sec_mesg = Steganographer.decode(file_dir,pass);
                     if (sec_mesg.length() > 0) {
                         JOptionPane.showMessageDialog(frame, sec_mesg);
                     }

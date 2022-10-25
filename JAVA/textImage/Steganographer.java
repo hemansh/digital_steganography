@@ -18,11 +18,11 @@ public class Steganographer {
 
 	// Encode
 
-	public static void encode(String imagePath, String textPath) {
+	public static void encode(String imagePath, String textPath,String pass) {
 		BufferedImage originalImage = getImageFromPath(imagePath);
 		BufferedImage imageInUserSpace = getImageInUserSpace(originalImage);
 		//String text = getTextFromTextFile(textPath);
-		String text = textPath;
+		String text = new Encryption().Encrypt(checkpassword(pass), textPath);
 
 		byte imageInBytes[] = getBytesFromImage(imageInUserSpace);
 		byte textInBytes[] = text.getBytes();
@@ -65,7 +65,7 @@ public class Steganographer {
 
 	// Decode
 
-	public static String decode(String imagePath) {
+	public static String decode(String imagePath,String pass) {
 		byte[] decodedHiddenText;
 		try {
 			BufferedImage imageFromPath = getImageFromPath(imagePath);
@@ -76,7 +76,7 @@ public class Steganographer {
 			//String outputFileName = "hidden_text.txt";
 			//saveTextToPath(hiddenText, new File(outputFileName));
 			//System.out.println("Successfully extracted text to: " + outputFileName);
-			return hiddenText;
+			return (new Encryption().Decrypt(checkpassword(pass), hiddenText));
 		} catch (Exception exception) {
 			System.out.println("No hidden message. Error: " + exception);
 			return "";
@@ -169,5 +169,17 @@ public class Steganographer {
 
 	private static byte[] getBytesFromInt(int integer) {
 		return ByteBuffer.allocate(bytesForTextLengthData).putInt(integer).array();
+	}
+
+	private static String checkpassword(String pass)
+	{
+		String checkedString;
+		if(pass.length() <= 24)
+		{
+			checkedString = pass + "abcdefghijklmnopqrstuvwx";
+			return checkedString;
+		}
+		else 
+			return pass;
 	}
 }
