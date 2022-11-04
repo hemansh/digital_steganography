@@ -2,13 +2,16 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
-
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import imagestego.ImageHider;
 import imagestego.Messages;
+import textImageStego.Steganographer;
 import gui.RoundBtn;
-
-import textImage.Steganographer;
+import videoStego.FLVCrypto;
+import videoStego.IO;
+import videoStego.RC4;
 
 public class StegnoMain {
     JFrame frame;
@@ -73,8 +76,6 @@ public class StegnoMain {
                 }
                 else if(decode_radio_text.isSelected())
                 {
-                    // Decrypt obj = new Decrypt();
-                    // String sec_mesg = obj.getText(file_dir);
                     String pass = JOptionPane.showInputDialog(frame, "enter your password");
                     String sec_mesg = Steganographer.decode(file_dir,pass);
                     if (sec_mesg.length() > 0) {
@@ -244,6 +245,34 @@ public class StegnoMain {
     }
 
     public static void main(String[] args) {
+        if(args[0].equals("encode")){
+            try {
+                System.out.println("running");
+                Path inpfile = Paths.get(args[1]);
+                RC4 rc4 =  new RC4(args[3].getBytes());
+                FLVCrypto flv= new FLVCrypto();
+                byte[] inputFileBytes = IO.readFileBytes(inpfile);
+                byte[] encryptedMessage = rc4.encrypt(args[2].getBytes());
+                byte[] outputFileBytes = flv.embed(inputFileBytes,encryptedMessage) ;
+                Path outfile = Paths.get("D:\\projects\\digital_steganography\\JAVA\\outfile.flv");
+                IO.writeFileBytes(outfile, outputFileBytes);
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+        }
+        if(args[0].equals("decode")){
+            try {
+                Path inp = Paths.get(args[1]);
+                RC4 rc4 = new RC4(args[2].getBytes());
+                FLVCrypto flv = new FLVCrypto();
+                byte[] inpufileBytes = IO.readFileBytes(inp);
+                byte[] encryptedByte = flv.extract(inpufileBytes);
+                String msg = new String(rc4.decrypt(encryptedByte));
+                System.out.println(msg);
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+        }
         new StegnoMain();
     }
 }
